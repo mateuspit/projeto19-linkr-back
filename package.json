@@ -4,6 +4,9 @@
   "type": "module",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "17.x || 18.x"
+  },
   "scripts": {
     "start": "node ./src/app.js",
     "dev": "nodemon ./src/app.js"
