@@ -1,4 +1,4 @@
-import db from '../database/connection.js';
+import db from '../database/database.connection.js';
 
 export default async function signupConflictValidation(req, res, next) {
     const { email } = req.body;

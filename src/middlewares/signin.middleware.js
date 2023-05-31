@@ -1,4 +1,4 @@
-import db from '../database/connection.js';
+import db from '../database/database.connection.js';
 import bcrypt from 'bcrypt';
 
 export default async function signinValidation(req, res, next) {

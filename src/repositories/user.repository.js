@@ -1,4 +1,4 @@
-import db from '../database/connection.js';
+import db from '../database/database.connection.js';
 
 export async function postUserRepository(fullname, name, email, hash, bio) {
     try {
