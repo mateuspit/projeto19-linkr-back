@@ -3,7 +3,7 @@ import { schemaValidation } from '../middlewares/schemaValidation.middleware.js'
 import { signupSchema, signinSchema } from '../schemas/user.schemas.js';
 import signupConflictValidation from '../middlewares/signup.middleware.js';
 import signinValidation from '../middlewares/signin.middleware.js';
-import { signup, signin } from '../controllers/user.controller.js';
+import { signup, signin } from '../controllers/user.controllers.js';
 
 const userRouter = Router();
 
