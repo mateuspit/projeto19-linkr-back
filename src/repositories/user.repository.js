@@ -1,22 +1,13 @@
 import db from '../database/database.connection.js';
 
-export async function postUserRepository(fullname, name, email, hash, bio) {
+export async function postUserRepository( email, hash, username ) {
     try {
-        if (bio) {
-            return (
-                await db.query(`
-                    INSERT INTO public.users (fullname, name, email, password, bio) 
-                    VALUES ($1, $2, $3, $4, $5)
-                `, [fullname, name, email, hash, bio])
-            )
-        } else {
-            return (
-                await db.query(`
-                    INSERT INTO public.users (fullname, name, email, password) 
-                    VALUES ($1, $2, $3, $4)
-                `, [fullname, name, email, hash])
-            )
-        }
+        return (
+            await db.query(`
+                INSERT INTO public.users ( email, password, username ) 
+                VALUES ($1, $2, $3)
+            `, [email, hash, username])
+        )
     } catch (err) {
         throw (err)
     }
