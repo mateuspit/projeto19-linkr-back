@@ -5,7 +5,7 @@ export async function createImageRepository(pictureUrl) {
         return (
             await db.query(`
                 INSERT 
-                INTO "public"."images" ("url")
+                INTO "public"."pictures" ("url")
                 VALUES ($1)
                 RETURNING "id"; 
             `, [pictureUrl])
