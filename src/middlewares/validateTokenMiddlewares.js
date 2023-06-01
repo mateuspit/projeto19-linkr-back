@@ -1,4 +1,4 @@
-import { db } from "../database/database-connection.js";
+import db from "../database/database.connection.js";
 
 export default function validateToken(schema) {
     return async (req, res, next) => {
@@ -12,8 +12,8 @@ export default function validateToken(schema) {
         //if (errorMessages) return res.status(401).send("errorMessages");
         try {
             const tokenExists = await db.query(`SELECT * FROM sessionstest WHERE token = $1`, [token]);
-            console.log(tokenExists.rows);
-            console.log(tokenExists.rows.length);
+            console.log("1",tokenExists.rows[0]);
+            console.log("2",tokenExists.rows.length);
             if (!tokenExists.rows.length) return res.status(401).send("Token não encontrado");
 
         }
