@@ -14,4 +14,6 @@ postsRouter.post("/post",
     validateDescription(descriptionSchema),
     getPostController);
 
+postsRouter.get("/post", validateToken(tokenSchema));
+
 export default postsRouter;
