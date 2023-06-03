@@ -11,7 +11,7 @@ export default function validateToken(schema) {
         if (errorMessages) return res.status(401).send(errorMessages);
         //if (errorMessages) return res.status(401).send("errorMessages");
         try {
-            const tokenExists = await db.query(`SELECT * FROM sessionstest WHERE token = $1`, [token]);
+            const tokenExists = await db.query(`SELECT * FROM sessions WHERE token = $1`, [token]);
             console.log("1",tokenExists.rows[0]);
             console.log("2",tokenExists.rows.length);
             if (!tokenExists.rows.length) return res.status(401).send("Token não encontrado");
