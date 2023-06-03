@@ -12,9 +12,6 @@ export function validateLink(schema) {
 export function validateDescription(schema) {
     return ((req, res, next) => {
         const { description } = req.body;
-        //console.log("req.body", req.body);
-        //console.log("description", description);
-        //console.log("{description}", { description });
         const { error } = schema.validate({ description }, { abortEarly: false });
         const errorMessages = error?.details.map(ed => ed.message);
         if (errorMessages) return res.status(409).send(errorMessages);
