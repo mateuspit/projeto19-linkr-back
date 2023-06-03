@@ -5,5 +5,5 @@ export const linkSchema = Joi.object({
 });
 
 export const descriptionSchema = Joi.object({
-    description: Joi.string().max(255)
+    description: Joi.string().max(255).allow('')
 });
