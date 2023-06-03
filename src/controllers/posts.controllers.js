@@ -6,11 +6,13 @@ export async function getTimeLineController(req, res) {
         //com o sessions.token pego sessions.userId
         //com sessions.userId pego posts.description e posts.urlId
         //com posts.urlId pego urls.url
-        const dataForPublish = await db.query(`SELECT users.username, posts.description, urls.url
+        //esqueci da merda da picture
+        const dataForPublish = await db.query(`SELECT users.username, posts.description, urls.url, pictures.urlp
         FROM sessions
         JOIN users ON sessions."userId" = users.id
         JOIN posts ON sessions."userId" = posts."userId"
         JOIN urls ON posts."urlId" = urls.id
+        JOIN pictures ON users."pictureId" = pictures.id
         WHERE sessions.token = $1;`,[res.locals.token])
         return res.status(200).send(dataForPublish.rows);
     }
