@@ -16,6 +16,7 @@ export default function validateToken(schema) {
         catch (err) {
             return res.status(500).send(err.message);
         }
+        res.locals.token = token;
         next();
     };
 }

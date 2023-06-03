@@ -2,7 +2,17 @@ import db from "../database/database.connection.js";
 
 export async function getTimeLineController(req, res) {
     try {
-
+        ///preciso: nome do usuario (users.name); descrição (posts.description); url (urls.url)
+        //com o sessions.token pego sessions.userId
+        //com sessions.userId pego posts.description e posts.urlId
+        //com posts.urlId pego urls.url
+        const dataForPublish = await db.query(`SELECT users.username, posts.description, urls.url
+        FROM sessions
+        JOIN users ON sessions."userId" = users.id
+        JOIN posts ON sessions."userId" = posts."userId"
+        JOIN urls ON posts."urlId" = urls.id
+        WHERE sessions.token = $1;`,[res.locals.token])
+        return res.status(200).send(dataForPublish.rows);
     }
     catch (err) {
         return res.status(500).send(err.message);
@@ -39,7 +49,7 @@ export async function postLinkController(req, res) {
             const tagId = await db.query(`SELECT id AS tagId FROM tags WHERE name = $1`, [uniqueTags[0]]);
             await db.query(`INSERT INTO "postTags" ("postId", "tagId") VALUES ($1, $2)`, [postId, tagId.rows[0].tagid]);
 
-           
+
             return res.status(200).send("Link postado no banco de dados! (uma tag)");
         }
 
@@ -52,7 +62,7 @@ export async function postLinkController(req, res) {
         const tagId = await db.query(`SELECT tags.id FROM tags 
                                         WHERE name = ANY($1::text[])`, [uniqueTags]);//tenho um array de objetos
 
-        
+
         const tagIdProcessed = tagId.rows.map(ao => ao.id);//agora tenho um array de ids
 
         await Promise.all(tagIdProcessed.map(async (ti) => {
