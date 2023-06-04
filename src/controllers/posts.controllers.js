@@ -2,6 +2,22 @@ import db from "../database/database.connection.js";
 
 export async function getTimeLineController(req, res) {
     try {
+        const dataForTimeLine = await db.query(`SELECT users.username, posts.description, urls.url,pictures.urlp
+        FROM sessions
+        JOIN users ON sessions."userId" = users.id
+        JOIN posts ON sessions."userId" = posts."userId"
+        JOIN urls ON posts."urlId" = urls.id
+        JOIN pictures ON users."pictureId" = pictures.id
+		LIMIT 20`);
+        return res.status(200).send(dataForTimeLine.rows);
+    }
+    catch (err) {
+        return res.status(500).send(err.message);
+    }
+}
+
+export async function getPostController(req, res) {
+    try {
         ///preciso: nome do usuario (users.name); descrição (posts.description); url (urls.url)
         //com o sessions.token pego sessions.userId
         //com sessions.userId pego posts.description e posts.urlId
@@ -13,7 +29,7 @@ export async function getTimeLineController(req, res) {
         JOIN posts ON sessions."userId" = posts."userId"
         JOIN urls ON posts."urlId" = urls.id
         JOIN pictures ON users."pictureId" = pictures.id
-        WHERE sessions.token = $1;`,[res.locals.token])
+        WHERE sessions.token = $1;`, [res.locals.token])
         return res.status(200).send(dataForPublish.rows);
     }
     catch (err) {
