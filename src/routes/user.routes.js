@@ -11,7 +11,7 @@ const userRouter = Router();
 
 userRouter.post('/signup', schemaValidation(signupSchema), signupConflictValidation, signup);
 userRouter.post('/signin', schemaValidation(signinSchema), signinValidation, signin);
-userRouter.get("/search", validateToken(tokenSchema), getSearchUserController);
+userRouter.post("/search", validateToken(tokenSchema), getSearchUserController);
 //fazer validação da entrada do user
 
 
