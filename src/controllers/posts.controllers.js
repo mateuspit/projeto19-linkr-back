@@ -1,14 +1,29 @@
 import db from "../database/database.connection.js";
 
+export async function getTrendingTags(req, res) {
+    try {
+        const dataTrendingTags = await db.query(`SELECT tags.id, tags.name, COUNT("postTags"."tagId") AS count
+                                                    FROM tags
+                                                    JOIN "postTags" ON tags.id = "postTags"."tagId"
+                                                    GROUP BY tags.id, tags.name
+                                                    ORDER BY count DESC;
+        `);
+        return res.status(200).send(dataTrendingTags.rows);
+    }
+    catch (err) {
+        return res.status(500).send(err.message);
+    }
+}
+
 export async function getTimeLineController(req, res) {
     try {
         const dataForTimeLine = await db.query(`SELECT users.username, posts.description, urls.url,pictures.urlp
-        FROM sessions
-        JOIN users ON sessions."userId" = users.id
-        JOIN posts ON sessions."userId" = posts."userId"
-        JOIN urls ON posts."urlId" = urls.id
-        JOIN pictures ON users."pictureId" = pictures.id
-		LIMIT 20`);
+                                                    FROM sessions
+                                                    JOIN users ON sessions."userId" = users.id
+                                                    JOIN posts ON sessions."userId" = posts."userId"
+                                                    JOIN urls ON posts."urlId" = urls.id
+                                                    JOIN pictures ON users."pictureId" = pictures.id
+                                                    LIMIT 20`);
         return res.status(200).send(dataForTimeLine.rows);
     }
     catch (err) {
