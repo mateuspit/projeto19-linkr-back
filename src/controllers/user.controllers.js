@@ -2,6 +2,23 @@ import bcrypt from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import { postUserRepository, deleteSessionRepository, postSessionRepository } from '../repositories/user.repository.js';
 import { createImageRepository } from '../repositories/auth.repository.js';
+import db from '../database/database.connection.js';
+
+export async function getSearchUserController(req, res) {
+    let { searchThis } = req.body;
+    searchThis = searchThis + "%";
+    console.log("searchThis", searchThis);
+    try {
+        const searchedData = await db.query(`SELECT pictures.urlp, users.username
+        FROM pictures
+        INNER JOIN users ON pictures.id = users."pictureId"
+        WHERE users.username ILIKE $1`, [searchThis]);
+        return res.status(200).send(searchedData.rows);
+    }
+    catch (err) {
+        return res.status(500).send(err.message);
+    }
+}
 
 export async function signup(req, res) {
     const { email, password, username, pictureUrl } = req.body;
